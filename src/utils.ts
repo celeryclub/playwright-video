@@ -3,9 +3,16 @@ import { ChromiumBrowserContext, Page } from 'playwright-core';
 
 export const getFfmpegFromModule = (): string | null => {
   try {
-    const ffmpegPath = require('ffmpeg-static'); // eslint-disable-line @typescript-eslint/no-var-requires
-    if (ffmpegPath) return ffmpegPath;
-  } catch (e) {} // eslint-disable-line no-empty
+    const chalk = require('chalk'); // eslint-disable-line @typescript-eslint/no-var-requires
+    console.log('chalk', chalk);
+    const ffmpeg = require('@ffmpeg-installer/ffmpeg'); // eslint-disable-line @typescript-eslint/no-var-requires
+    console.log('ffmpeg.path', ffmpeg.path);
+    if (ffmpeg.path) {
+      return ffmpeg.path;
+    }
+  } catch (e) {
+    console.log(e);
+  } // eslint-disable-line no-empty
 
   return null;
 };
@@ -22,7 +29,7 @@ export const ensureFfmpegPath = (): void => {
   const ffmpegPath = getFfmpegPath();
   if (!ffmpegPath) {
     throw new Error(
-      'pw-video: FFmpeg path not set. Set the FFMPEG_PATH env variable or install ffmpeg-static as a dependency.',
+      'pw-video: FFmpeg path not set. Set the FFMPEG_PATH env variable or install @ffmpeg-installer/ffmpeg as a dependency.',
     );
   }
 
